@@ -22,4 +22,6 @@ public interface ProductoRepo extends JpaRepository<Producto,Integer>{
 			+ "pro.idCategoria = cat.id")
 	List<ReporteProduct> mostrarProductos();
 
+	Producto findProductoById(Integer id);
+
 }

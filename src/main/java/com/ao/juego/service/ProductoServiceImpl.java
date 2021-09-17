@@ -2,6 +2,7 @@ package com.ao.juego.service;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.ao.juego.controller.dto.ProductoDto;
@@ -11,6 +12,7 @@ import com.ao.juego.model.custom.ReporteProduct;
 import com.ao.juego.model.custom.ReporteProducto;
 import com.ao.juego.repository.CategoriaRepo;
 import com.ao.juego.repository.ProductoRepo;
+import com.ao.juego.util.FuncionUtil;
 
 @Service
 public class ProductoServiceImpl implements ProductoService {
@@ -50,8 +52,16 @@ public class ProductoServiceImpl implements ProductoService {
 
 	@Override
 	public List<ReporteProduct> obtenerProductosPorCampos() {
-		//return null;
 		return productoRepo.mostrarProductos();
+	}
+
+	@Override
+	public Producto editarProducto(Producto producto) {
+		Producto productoEditado= productoRepo.findProductoById(producto.getId());	
+		if (productoEditado==null)return null;
+		FuncionUtil util = new FuncionUtil();
+		BeanUtils.copyProperties(producto, productoEditado, util.getNullPropertyNames(producto));
+		return productoRepo.save(productoEditado);
 	}
 
 }

@@ -12,5 +12,6 @@ public interface ProductoService {
 	Producto addProducto(ProductoDto productoDto);
 	List<ReporteProducto> reporteProductos();
 	List<ReporteProduct> obtenerProductosPorCampos();
+	Producto editarProducto(Producto producto);
 
 }
