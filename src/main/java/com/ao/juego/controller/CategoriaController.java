@@ -2,6 +2,7 @@ package com.ao.juego.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ public class CategoriaController {
 	public CategoriaController(CategoriaService categoriaService) {
 		this.categoriaService = categoriaService;
 	}
-
+	@PreAuthorize("permitAll()")
 	@PostMapping("/crear")
 	public ResponseEntity<Categoria> crearCategoria(@RequestBody CategoriaDto categoriaDto){
 		Categoria categoriaNuevo = categoriaService.crearCategoria(categoriaDto.getNombre());

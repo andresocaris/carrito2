@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -26,24 +27,29 @@ public class ProductoController {
 	@Autowired
 	ProductoService productoService;
 
+	
+
+	@PreAuthorize("permitAll()")
 	@GetMapping("/listado")
 	public ResponseEntity<List<Producto>> obtenerProductos() {
 		List<Producto> productos = productoService.obtenerProductos();
 		return new ResponseEntity<>(productos, HttpStatus.OK);
 	}
 
+	@PreAuthorize("permitAll()")
 	@GetMapping("/reporte")
 	public ResponseEntity<List<ReporteProducto>> reporteProductos() {
 		List<ReporteProducto> productos = productoService.reporteProductos();
 		return new ResponseEntity<>(productos, HttpStatus.OK);
 	}
-
+	@PreAuthorize("permitAll()")
 	@PostMapping("/add")
 	public ResponseEntity<Producto> addProducto(@RequestBody ProductoDto productoDto) {
 		Producto producto = productoService.addProducto(productoDto);
 		return new ResponseEntity<>(producto, HttpStatus.OK);
 	}
-
+	
+	@PreAuthorize("permitAll()")
 	@GetMapping("/listar")
 	public ResponseEntity<ProductoReportDto> listarProductos() {
 		ProductoReportDto productoReportDto = new ProductoReportDto();
@@ -58,7 +64,7 @@ public class ProductoController {
 		}
 		return new ResponseEntity<>(productoReportDto, HttpStatus.OK);
 	}
-
+	@PreAuthorize("permitAll()")
 	@PutMapping("/editar")
 	public ResponseEntity<Producto> addProducto(@RequestBody Producto producto) {
 		Producto productoEditado = productoService.editarProducto(producto);
