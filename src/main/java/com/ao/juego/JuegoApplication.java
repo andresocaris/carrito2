@@ -29,9 +29,9 @@ public class JuegoApplication {
 			http.csrf().disable()
 				.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 				.authorizeRequests()
-
-				.antMatchers(HttpMethod.GET, "/producto/listado").permitAll()
-				.anyRequest().authenticated();
+				.anyRequest().permitAll();
+//				.antMatchers(HttpMethod.POST, "/usuario/obtener-usuario").permitAll()
+//				.anyRequest().authenticated();
 		}
 	}
 

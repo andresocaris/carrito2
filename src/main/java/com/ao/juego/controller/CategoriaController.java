@@ -21,7 +21,6 @@ public class CategoriaController {
 	public CategoriaController(CategoriaService categoriaService) {
 		this.categoriaService = categoriaService;
 	}
-	@PreAuthorize("permitAll()")
 	@PostMapping("/crear")
 	public ResponseEntity<Categoria> crearCategoria(@RequestBody CategoriaDto categoriaDto){
 		Categoria categoriaNuevo = categoriaService.crearCategoria(categoriaDto.getNombre());

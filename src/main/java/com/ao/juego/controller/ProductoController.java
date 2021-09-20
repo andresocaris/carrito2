@@ -29,27 +29,27 @@ public class ProductoController {
 
 	
 
-	@PreAuthorize("permitAll()")
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/listado")
 	public ResponseEntity<List<Producto>> obtenerProductos() {
 		List<Producto> productos = productoService.obtenerProductos();
 		return new ResponseEntity<>(productos, HttpStatus.OK);
 	}
 
-	@PreAuthorize("permitAll()")
+	
 	@GetMapping("/reporte")
 	public ResponseEntity<List<ReporteProducto>> reporteProductos() {
 		List<ReporteProducto> productos = productoService.reporteProductos();
 		return new ResponseEntity<>(productos, HttpStatus.OK);
 	}
-	@PreAuthorize("permitAll()")
+	
 	@PostMapping("/add")
 	public ResponseEntity<Producto> addProducto(@RequestBody ProductoDto productoDto) {
 		Producto producto = productoService.addProducto(productoDto);
 		return new ResponseEntity<>(producto, HttpStatus.OK);
 	}
 	
-	@PreAuthorize("permitAll()")
+	
 	@GetMapping("/listar")
 	public ResponseEntity<ProductoReportDto> listarProductos() {
 		ProductoReportDto productoReportDto = new ProductoReportDto();
@@ -64,7 +64,7 @@ public class ProductoController {
 		}
 		return new ResponseEntity<>(productoReportDto, HttpStatus.OK);
 	}
-	@PreAuthorize("permitAll()")
+	
 	@PutMapping("/editar")
 	public ResponseEntity<Producto> addProducto(@RequestBody Producto producto) {
 		Producto productoEditado = productoService.editarProducto(producto);
