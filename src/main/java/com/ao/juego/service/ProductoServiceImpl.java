@@ -66,8 +66,7 @@ public class ProductoServiceImpl implements ProductoService {
 
 	@Override
 	public Producto obtenerProductoPorName(String nombre) {
-		// TODO Auto-generated method stub
-		return productoRepo.findProductoByName(nombre);
+		return productoRepo.findProductoByNombre(nombre);
 	}
 
 }

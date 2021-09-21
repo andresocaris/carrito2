@@ -66,5 +66,10 @@ public class ProductoController {
 		Producto productoEditado = productoService.editarProducto(producto);
 		return new ResponseEntity<>(productoEditado, HttpStatus.OK);
 	}
+	@PutMapping("/fasdfga")
+	public ResponseEntity<Object> fasdf(@RequestBody Producto producto) {
+		Producto productoEditado = productoService.obtenerProductoPorName("dsds");
+		return new ResponseEntity<>(productoEditado, HttpStatus.OK);
+	}
 
 }
