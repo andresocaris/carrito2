@@ -27,8 +27,6 @@ public class ProductoController {
 	@Autowired
 	ProductoService productoService;
 
-	
-
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/listado")
 	public ResponseEntity<List<Producto>> obtenerProductos() {
@@ -36,20 +34,18 @@ public class ProductoController {
 		return new ResponseEntity<>(productos, HttpStatus.OK);
 	}
 
-	
 	@GetMapping("/reporte")
 	public ResponseEntity<List<ReporteProducto>> reporteProductos() {
 		List<ReporteProducto> productos = productoService.reporteProductos();
 		return new ResponseEntity<>(productos, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/add")
 	public ResponseEntity<Producto> addProducto(@RequestBody ProductoDto productoDto) {
 		Producto producto = productoService.addProducto(productoDto);
 		return new ResponseEntity<>(producto, HttpStatus.OK);
 	}
-	
-	
+
 	@GetMapping("/listar")
 	public ResponseEntity<ProductoReportDto> listarProductos() {
 		ProductoReportDto productoReportDto = new ProductoReportDto();
@@ -64,7 +60,7 @@ public class ProductoController {
 		}
 		return new ResponseEntity<>(productoReportDto, HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/editar")
 	public ResponseEntity<Producto> addProducto(@RequestBody Producto producto) {
 		Producto productoEditado = productoService.editarProducto(producto);

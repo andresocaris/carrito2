@@ -64,4 +64,10 @@ public class ProductoServiceImpl implements ProductoService {
 		return productoRepo.save(productoEditado);
 	}
 
+	@Override
+	public Producto obtenerProductoPorName(String nombre) {
+		// TODO Auto-generated method stub
+		return productoRepo.findProductoByName(nombre);
+	}
+
 }

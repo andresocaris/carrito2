@@ -17,5 +17,4 @@ public class ProductoReportDto {
 	public void add(ProductoDetailDto productoDetailDto) {
 		productos.add(productoDetailDto);
 	}
-
 }
