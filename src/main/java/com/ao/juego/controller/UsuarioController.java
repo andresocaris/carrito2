@@ -55,8 +55,8 @@ public class UsuarioController {
 		HttpSession miSession = request.getSession();
 		miSession.setAttribute("usuario", username);
 		miSession.setAttribute("idUsuario", usuario.getId());
-		
-		Map<String,Map> mapa = new HashMap<>();
+
+		Map<String, Map> mapa = new HashMap<>();
 		miSession.setAttribute("productos", mapa);
 
 		return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
@@ -79,7 +79,7 @@ public class UsuarioController {
 		HttpSession miSession = request.getSession();
 
 		Map<String, Integer> productoCantidad = (Map<String, Integer>) miSession.getAttribute("productos");
-		
+
 		for (ProductoCantidadDetailDto productoCantidadDetailDto : productosCantidadDto.getProductos()) {
 			String nombre = productoCantidadDetailDto.getNombre();
 			Integer cantidadAgregar = productoCantidadDetailDto.getCantidad();
@@ -103,25 +103,23 @@ public class UsuarioController {
 
 		return new ResponseEntity<>(productosCantidadDtoSalida, HttpStatus.OK);
 	}
+
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/generar-venta")
-	public ResponseEntity<ProductosCantidadDto> generarVentas(HttpServletRequest request){
+	public ResponseEntity<ProductosCantidadDto> generarVentas(HttpServletRequest request) {
 		HttpSession miSession = request.getSession();
 		Map<String, Integer> productoCantidad = (Map<String, Integer>) miSession.getAttribute("productos");
-		
-		for (Map.Entry<String,Integer> e : productoCantidad.entrySet()) {
+
+		for (Map.Entry<String, Integer> e : productoCantidad.entrySet()) {
 			String nombre = e.getKey();
 			Integer cantidad = e.getValue();
-			
+
 			Integer idProducto = productoService.obtenerProductoPorName(nombre).getId();
 		}
-		
+
 		return null;
 	}
-	
-	
-	
-	
+
 	private String getJWTToken(String username) {
 		String secretKey = "mySecretKey";
 		List<GrantedAuthority> grantedAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");

@@ -3,10 +3,11 @@ package com.ao.juego.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,26 +27,26 @@ import com.ao.juego.service.ProductoService;
 public class ProductoController {
 	@Autowired
 	ProductoService productoService;
-
-	@PreAuthorize("isAuthenticated()")
-	@GetMapping("/listado")
-	public ResponseEntity<List<Producto>> obtenerProductos() {
-		List<Producto> productos = productoService.obtenerProductos();
-		return new ResponseEntity<>(productos, HttpStatus.OK);
-	}
-
-	@GetMapping("/reporte")
-	public ResponseEntity<List<ReporteProducto>> reporteProductos() {
-		List<ReporteProducto> productos = productoService.reporteProductos();
-		return new ResponseEntity<>(productos, HttpStatus.OK);
-	}
-
+	
 	@PostMapping("/add")
-	public ResponseEntity<Producto> addProducto(@RequestBody ProductoDto productoDto) {
+	public ResponseEntity<Object> addProducto(@RequestBody ProductoDto productoDto) {
 		Producto producto = productoService.addProducto(productoDto);
-		return new ResponseEntity<>(producto, HttpStatus.OK);
-	}
 
+		if (producto == null) {
+			return new ResponseEntity<>("no existe el la categoria", HttpStatus.BAD_REQUEST);
+		} else
+			return new ResponseEntity<>(producto, HttpStatus.OK);
+	}
+	
+	@PutMapping("/editar")
+	public ResponseEntity<Object> editarProducto(@RequestBody Producto producto) {
+		Producto productoEditado = productoService.editarProducto(producto);
+		if (productoEditado == null) {
+			return new ResponseEntity<>("No existe ese producto con ese Id", HttpStatus.BAD_REQUEST);
+		} else
+			return new ResponseEntity<>(productoEditado, HttpStatus.OK);
+	}
+	
 	@GetMapping("/listar")
 	public ResponseEntity<ProductoReportDto> listarProductos() {
 		ProductoReportDto productoReportDto = new ProductoReportDto();
@@ -60,16 +61,31 @@ public class ProductoController {
 		}
 		return new ResponseEntity<>(productoReportDto, HttpStatus.OK);
 	}
-
-	@PutMapping("/editar")
-	public ResponseEntity<Producto> addProducto(@RequestBody Producto producto) {
-		Producto productoEditado = productoService.editarProducto(producto);
-		return new ResponseEntity<>(productoEditado, HttpStatus.OK);
+	
+	@GetMapping("/reporte")
+	public ResponseEntity<List<ReporteProducto>> reporteProductos() {
+		List<ReporteProducto> productos = productoService.reporteProductos();
+		return new ResponseEntity<>(productos, HttpStatus.OK);
 	}
-	@PutMapping("/fasdfga")
-	public ResponseEntity<Object> fasdf(@RequestBody Producto producto) {
-		Producto productoEditado = productoService.obtenerProductoPorName("dsds");
-		return new ResponseEntity<>(productoEditado, HttpStatus.OK);
+	
+	@GetMapping("/listado-paginacion/{tamanoPagina}/{pagina}")
+	public ResponseEntity<List<Producto>> obtenerProductos(@PathVariable("tamanoPagina") int tamanoPagina
+			,@PathVariable("pagina") int pagina) {
+		
+		Page<Producto> productosPage = productoService.obtenerProductosPaginas(tamanoPagina,pagina-1);
+		List<Producto> productosList = productosPage.getContent();
+		
+		return new ResponseEntity<>(productosList, HttpStatus.OK);
 	}
-
+	@GetMapping("/listado")
+	public ResponseEntity<List<Producto>> obtenerProductos() {
+		List<Producto> productos = productoService.obtenerProductos();
+		return new ResponseEntity<>(productos, HttpStatus.OK);
+	}
+	
+	@GetMapping("/test")
+	public ResponseEntity<List<Producto>> testProductos() {
+		List<Producto> productos = productoService.obtenerProductosPorCosto(5301).getContent();
+		return new ResponseEntity<>(productos, HttpStatus.OK);
+	}
 }

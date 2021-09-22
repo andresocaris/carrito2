@@ -1,8 +1,12 @@
 package com.ao.juego.service;
 
+
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ao.juego.controller.dto.ProductoDto;
@@ -26,15 +30,20 @@ public class ProductoServiceImpl implements ProductoService {
 	}
 
 	@Override
+	public Page<Producto> obtenerProductosPaginas(int size, int pagina) {
+		Pageable pag = PageRequest.of(pagina, size);
+		
+		return productoRepo.findAll(pag);
+	}
+	@Override
 	public List<Producto> obtenerProductos() {
+		// TODO Auto-generated method stub
 		return productoRepo.findAll();
 	}
 
 	@Override
 	public List<ReporteProducto> reporteProductos() {
-		// TODO Auto-generated method stub
 		return productoRepo.reporteProductos();
-
 	}
 
 	@Override
@@ -53,6 +62,7 @@ public class ProductoServiceImpl implements ProductoService {
 	@Override
 	public List<ReporteProduct> obtenerProductosPorCampos() {
 		return productoRepo.mostrarProductos();
+		
 	}
 
 	@Override
@@ -61,6 +71,7 @@ public class ProductoServiceImpl implements ProductoService {
 		if (productoEditado==null)return null;
 		FuncionUtil util = new FuncionUtil();
 		BeanUtils.copyProperties(producto, productoEditado, util.getNullPropertyNames(producto));
+		
 		return productoRepo.save(productoEditado);
 	}
 
@@ -68,5 +79,21 @@ public class ProductoServiceImpl implements ProductoService {
 	public Producto obtenerProductoPorName(String nombre) {
 		return productoRepo.findProductoByNombre(nombre);
 	}
+
+	@Override
+	public Page<Producto> obtenerProductosPorCosto(Integer costo) {
+		// TODO Auto-generated method stub
+		Pageable pag = PageRequest.of(1, 1);
+		return productoRepo.findProductoByCosto(costo,pag);
+	}
+
+
+
+//	@Override
+//	public Page<ReporteProducto> listarPaginado(int size, int numeroPagina) {
+//		Pageable pageableRequest = new PageRequest(numeroPagina, size, Sort.Direction.DESC, id);
+//
+//		return productoRepo.buscarPorPagina( pageableRequest);
+//	}
 
 }

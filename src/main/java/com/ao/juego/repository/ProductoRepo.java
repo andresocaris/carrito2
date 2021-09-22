@@ -1,13 +1,18 @@
 package com.ao.juego.repository;
 
+
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.ao.juego.model.Producto;
 import com.ao.juego.model.custom.ReporteProduct;
 import com.ao.juego.model.custom.ReporteProducto;
+
+
 
 public interface ProductoRepo extends JpaRepository<Producto,Integer>{
 
@@ -23,8 +28,13 @@ public interface ProductoRepo extends JpaRepository<Producto,Integer>{
 	List<ReporteProduct> mostrarProductos();
 
 	Producto findProductoById(Integer id);
-
 	
 	Producto findProductoByNombre(String nombre);
+
+	Page<Producto> findProductoByCosto(Integer costo,Pageable pag);
+	
+//	@Query("select new com.ao.juego.model.custom.ReporteProducto(c.id,c.nombre) "
+//			+ "from  Producto c order by s.id")
+//	Page<ReporteProducto> buscarPorPagina(Pageable pageable);
 
 }
