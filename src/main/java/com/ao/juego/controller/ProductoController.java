@@ -1,5 +1,6 @@
 package com.ao.juego.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ao.juego.controller.dto.ProductoCantidadDto;
 import com.ao.juego.controller.dto.ProductoDetailDto;
 import com.ao.juego.controller.dto.ProductoDto;
 import com.ao.juego.controller.dto.ProductoReportDto;
 import com.ao.juego.model.Producto;
+import com.ao.juego.model.custom.ProductoCantidad;
 import com.ao.juego.model.custom.ReporteProduct;
 import com.ao.juego.model.custom.ReporteProducto;
 import com.ao.juego.service.ProductoService;
@@ -81,4 +84,25 @@ public class ProductoController {
 		List<Producto> productos = productoService.obtenerProductosPorCosto(5301).getContent();
 		return new ResponseEntity<>(productos, HttpStatus.OK);
 	}
+	
+	@GetMapping("/obtener-productos-mas-vendidos/{tamanoPagina}/{numeroPagina}")
+	public ResponseEntity<List<ProductoCantidadDto>> obtenerProductosMasVendidos(@PathVariable("tamanoPagina") int tamanoPagina 
+			, @PathVariable("numeroPagina") int numeroPagina ) {
+		List<ProductoCantidad> productos = productoService.obtenerProductosMasVendidos(numeroPagina,tamanoPagina);
+		
+		List<ProductoCantidadDto> productosDto = new ArrayList<>();
+		for ( ProductoCantidad productoCantidad : productos) {
+			int idProducto = productoCantidad.getIdProducto();
+			long cantidad = productoCantidad.getCantidad();
+			String nombre = productoService.obtenerNombreProductoPorId(idProducto);
+			
+			ProductoCantidadDto producto = new ProductoCantidadDto();
+			producto.setNombre(nombre);
+			producto.setCantidad((int) cantidad);
+			productosDto.add(producto);
+		}
+		
+		return new ResponseEntity<>(productosDto, HttpStatus.OK);
+	}
+	
 }

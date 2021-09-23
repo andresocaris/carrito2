@@ -6,10 +6,12 @@ import org.springframework.data.domain.Page;
 
 import com.ao.juego.controller.dto.ProductoDto;
 import com.ao.juego.model.Producto;
+import com.ao.juego.model.custom.ProductoCantidad;
 import com.ao.juego.model.custom.ReporteProduct;
 import com.ao.juego.model.custom.ReporteProducto;
 
 public interface ProductoService {
+	
 	Page<Producto> obtenerProductosPaginas(int size,int pagina);
 	List<Producto> obtenerProductos();
 	Producto addProducto(ProductoDto productoDto);
@@ -21,5 +23,7 @@ public interface ProductoService {
 //	List<ReporteProducto> listarPaginado(int cantidadPagina, int numeroPagina);
 	
 	Page<Producto> obtenerProductosPorCosto(Integer costo);
+	List<ProductoCantidad> obtenerProductosMasVendidos(int numeroPagina ,int tamanoPagina);
+	String obtenerNombreProductoPorId(int idProducto);
 
 }

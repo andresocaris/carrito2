@@ -14,10 +14,12 @@ import com.ao.juego.exceptions.CategoriaException;
 import com.ao.juego.exceptions.ProductoException;
 import com.ao.juego.model.Categoria;
 import com.ao.juego.model.Producto;
+import com.ao.juego.model.custom.ProductoCantidad;
 import com.ao.juego.model.custom.ReporteProduct;
 import com.ao.juego.model.custom.ReporteProducto;
 import com.ao.juego.repository.CategoriaRepo;
 import com.ao.juego.repository.ProductoRepo;
+import com.ao.juego.repository.ProductoVentaRepo;
 import com.ao.juego.util.FuncionUtil;
 
 @Service
@@ -25,10 +27,12 @@ public class ProductoServiceImpl implements ProductoService {
 
 	private final ProductoRepo productoRepo;
 	private final CategoriaRepo categoriaRepo;
+	private final ProductoVentaRepo productoVentaRepo;
 
-	public ProductoServiceImpl(ProductoRepo productoRepo, CategoriaRepo categoriaRepo) {
+	public ProductoServiceImpl(ProductoRepo productoRepo, CategoriaRepo categoriaRepo, ProductoVentaRepo productoVentaRepo) {
 		this.productoRepo = productoRepo;
 		this.categoriaRepo = categoriaRepo;
+		this.productoVentaRepo = productoVentaRepo;
 	}
 
 	@Override
@@ -87,6 +91,17 @@ public class ProductoServiceImpl implements ProductoService {
 		// TODO Auto-generated method stub
 		Pageable pag = PageRequest.of(1, 1);
 		return productoRepo.findProductoByCosto(costo,pag);
+	}
+
+	@Override
+	public List<ProductoCantidad> obtenerProductosMasVendidos(int numeroPagina ,int tamanoPagina) {
+		Pageable pag = PageRequest.of(numeroPagina-1,tamanoPagina);
+		return productoVentaRepo.obtenerMejoresProductos(pag);
+	}
+
+	@Override
+	public String obtenerNombreProductoPorId(int idProducto) {
+		return productoRepo.findProductoById(idProducto).getNombre();
 	}
 
 
