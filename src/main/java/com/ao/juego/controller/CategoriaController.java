@@ -26,15 +26,11 @@ public class CategoriaController {
 	@PostMapping("/crear")
 	public ResponseEntity<Object> crearCategoria(@RequestBody CategoriaDto categoriaDto){
 		Categoria categoriaNuevo = categoriaService.crearCategoria(categoriaDto.getNombre());
-		if ( categoriaNuevo == null ) {
-			return new ResponseEntity<>("ya existe esa categoria con ese nombre",HttpStatus.BAD_REQUEST);
-		}else return new ResponseEntity<>(categoriaNuevo,HttpStatus.OK);
+		return new ResponseEntity<>(categoriaNuevo,HttpStatus.OK);
 	}
 	@GetMapping("/listar")
 	public ResponseEntity<Object> listarCategoria(){
 		List<Categoria> categorias = categoriaService.listarCategorias();
 		return new ResponseEntity<>(categorias,HttpStatus.OK);
 	}
-		
-	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ao.juego.exceptions.CategoriaException;
 import com.ao.juego.model.Categoria;
 import com.ao.juego.repository.CategoriaRepo;
 
@@ -19,8 +20,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 	@Override
 	public Categoria crearCategoria(String nombre) {
 		Categoria categoria = categoriaRepo.findByNombre(nombre);
-		if (categoria != null)
-			return null;
+		if ( categoria != null ) throw new CategoriaException("ya existe la categoria con ese nombre");
 		Categoria categoriaNuevo = new Categoria();
 		categoriaNuevo.setNombre(nombre);
 		return categoriaRepo.save(categoriaNuevo);
@@ -28,7 +28,6 @@ public class CategoriaServiceImpl implements CategoriaService {
 
 	@Override
 	public List<Categoria> listarCategorias() {
-		// TODO Auto-generated method stub
 		return categoriaRepo.findAll();
 	}
 

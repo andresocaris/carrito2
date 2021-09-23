@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ao.juego.controller.dto.ProductoDto;
+import com.ao.juego.exceptions.CategoriaException;
+import com.ao.juego.exceptions.ProductoException;
 import com.ao.juego.model.Categoria;
 import com.ao.juego.model.Producto;
 import com.ao.juego.model.custom.ReporteProduct;
@@ -50,7 +52,7 @@ public class ProductoServiceImpl implements ProductoService {
 	public Producto addProducto(ProductoDto productoDto) {
 		Producto producto = new Producto();
 		Categoria categoria = categoriaRepo.findByNombre(productoDto.getCategoria());
-		if ( categoria == null ) return null;
+		if ( categoria == null )throw new CategoriaException("la categoria no existe");
 		Integer idCategoria=categoria.getId();
 		producto.setNombre(productoDto.getNombre());
 		producto.setCosto(productoDto.getCosto());
@@ -68,7 +70,7 @@ public class ProductoServiceImpl implements ProductoService {
 	@Override
 	public Producto editarProducto(Producto producto) {
 		Producto productoEditado= productoRepo.findProductoById(producto.getId());	
-		if (productoEditado==null)return null;
+		if (productoEditado==null)throw new ProductoException("no existe el id del producto");
 		FuncionUtil util = new FuncionUtil();
 		BeanUtils.copyProperties(producto, productoEditado, util.getNullPropertyNames(producto));
 		

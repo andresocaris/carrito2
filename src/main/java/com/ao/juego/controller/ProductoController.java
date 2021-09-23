@@ -31,20 +31,13 @@ public class ProductoController {
 	@PostMapping("/add")
 	public ResponseEntity<Object> addProducto(@RequestBody ProductoDto productoDto) {
 		Producto producto = productoService.addProducto(productoDto);
-
-		if (producto == null) {
-			return new ResponseEntity<>("no existe el la categoria", HttpStatus.BAD_REQUEST);
-		} else
-			return new ResponseEntity<>(producto, HttpStatus.OK);
+		return new ResponseEntity<>(producto, HttpStatus.OK);
 	}
 	
 	@PutMapping("/editar")
 	public ResponseEntity<Object> editarProducto(@RequestBody Producto producto) {
 		Producto productoEditado = productoService.editarProducto(producto);
-		if (productoEditado == null) {
-			return new ResponseEntity<>("No existe ese producto con ese Id", HttpStatus.BAD_REQUEST);
-		} else
-			return new ResponseEntity<>(productoEditado, HttpStatus.OK);
+		return new ResponseEntity<>(productoEditado, HttpStatus.OK);
 	}
 	
 	@GetMapping("/listar")

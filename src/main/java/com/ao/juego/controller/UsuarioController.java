@@ -24,7 +24,10 @@ import com.ao.juego.controller.dto.ProductoCantidadDetailDto;
 import com.ao.juego.controller.dto.ProductosCantidadDto;
 import com.ao.juego.controller.dto.UsuarioDto;
 import com.ao.juego.controller.dto.UsuarioDto2;
+import com.ao.juego.controller.dto.VentaDetail;
+import com.ao.juego.controller.dto.VentaDto;
 import com.ao.juego.model.Usuario;
+import com.ao.juego.model.Venta;
 import com.ao.juego.service.ProductoService;
 import com.ao.juego.service.UsuarioService;
 
@@ -56,7 +59,7 @@ public class UsuarioController {
 		miSession.setAttribute("usuario", username);
 		miSession.setAttribute("idUsuario", usuario.getId());
 
-		Map<String, Map> mapa = new HashMap<>();
+		Map<String, Integer> mapa = new HashMap<>();
 		miSession.setAttribute("productos", mapa);
 
 		return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
@@ -94,9 +97,11 @@ public class UsuarioController {
 		for (Map.Entry<String, Integer> elemento : productoCantidad.entrySet()) {
 			String nombre = elemento.getKey();
 			Integer cantidad = elemento.getValue();
+			Integer costo= productoService.obtenerProductoPorName(nombre).getCosto();
 			ProductoCantidadDetailDto productoCantidadDetailDto = new ProductoCantidadDetailDto();
 			productoCantidadDetailDto.setNombre(nombre);
 			productoCantidadDetailDto.setCantidad(cantidad);
+			productoCantidadDetailDto.setCosto(costo);
 			productosCantidadDtoSalida.add(productoCantidadDetailDto);
 		}
 		miSession.setAttribute("productos", productoCantidad);
@@ -106,18 +111,31 @@ public class UsuarioController {
 
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/generar-venta")
-	public ResponseEntity<ProductosCantidadDto> generarVentas(HttpServletRequest request) {
+	public ResponseEntity<VentaDto> generarVentas(HttpServletRequest request) {
 		HttpSession miSession = request.getSession();
+		Integer idUsuario = (Integer) miSession.getAttribute("idUsuario");
 		Map<String, Integer> productoCantidad = (Map<String, Integer>) miSession.getAttribute("productos");
-
+		ProductosCantidadDto productos = new ProductosCantidadDto();
 		for (Map.Entry<String, Integer> e : productoCantidad.entrySet()) {
+			ProductoCantidadDetailDto productoCantidadDetailDto = new ProductoCantidadDetailDto();
 			String nombre = e.getKey();
 			Integer cantidad = e.getValue();
-
-			Integer idProducto = productoService.obtenerProductoPorName(nombre).getId();
+			Integer costo = productoService.obtenerProductoPorName(nombre).getCosto();
+			productoCantidadDetailDto.setNombre(nombre);
+			productoCantidadDetailDto.setCantidad(cantidad);
+			productoCantidadDetailDto.setCosto(costo);
+			productos.add(productoCantidadDetailDto);		
 		}
-
-		return null;
+		String nombreUsuario = (String) miSession.getAttribute("usuario");
+		Venta venta = usuarioService.generarVenta(productos,idUsuario);
+		VentaDetail ventaDetail = new VentaDetail();
+		ventaDetail.setDate(venta.getFecha());
+		ventaDetail.setMontoVenta(venta.getMonto());
+		ventaDetail.setNombreUsuario(nombreUsuario);
+		VentaDto ventaDto = new VentaDto();
+		ventaDto.setVentaDetail(ventaDetail);
+		ventaDto.setProductosCantidadDto(productos);
+		return new ResponseEntity<>(ventaDto,HttpStatus.OK);
 	}
 
 	private String getJWTToken(String username) {
