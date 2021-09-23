@@ -6,7 +6,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.ao.juego.controller.dto.CategoriaReporteDetailDto;
 import com.ao.juego.exceptions.CategoriaException;
 import com.ao.juego.model.Categoria;
 import com.ao.juego.model.custom.CategoriaCantidad;

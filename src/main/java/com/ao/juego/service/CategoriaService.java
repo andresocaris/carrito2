@@ -2,7 +2,6 @@ package com.ao.juego.service;
 
 import java.util.List;
 
-import com.ao.juego.controller.dto.CategoriaReporteDetailDto;
 import com.ao.juego.model.Categoria;
 import com.ao.juego.model.custom.CategoriaCantidad;
 

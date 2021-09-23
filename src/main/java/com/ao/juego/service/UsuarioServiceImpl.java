@@ -71,6 +71,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 			productoVenta.setCantidad(cantidad);
 			productoVenta.setIdProducto(idProducto);
 			productoVenta.setIdVenta(idVenta);
+			@SuppressWarnings("unused")
 			ProductoVenta productoVentaCreado = productoVentaService.crearProductoVenta(productoVenta);
 		}
 		
