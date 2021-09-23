@@ -20,7 +20,8 @@ public interface ProductoService {
 	Producto editarProducto(Producto producto);
 	Producto obtenerProductoPorName(String nombre);
 //	List<ReporteProducto> listarPaginado(Integer cantidadPagina, Integer numeroPagina);
-//	List<ReporteProducto> listarPaginado(int cantidadPagina, int numeroPagina);
+	
+	List<ReporteProducto> listarPaginado(int cantidadPagina, int numeroPagina);
 	
 	Page<Producto> obtenerProductosPorCosto(Integer costo);
 	List<ProductoCantidad> obtenerProductosMasVendidos(int numeroPagina ,int tamanoPagina);

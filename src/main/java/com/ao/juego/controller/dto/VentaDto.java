@@ -1,6 +1,5 @@
 package com.ao.juego.controller.dto;
 
-import com.ao.juego.model.Venta;
 
 public class VentaDto {
 	private ProductosCantidadDto productosCantidadDto;

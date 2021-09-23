@@ -81,6 +81,7 @@ public class UsuarioController {
 
 		HttpSession miSession = request.getSession();
 
+		@SuppressWarnings("unchecked")
 		Map<String, Integer> productoCantidad = (Map<String, Integer>) miSession.getAttribute("productos");
 
 		for (ProductoCantidadDetailDto productoCantidadDetailDto : productosCantidadDto.getProductos()) {
@@ -114,6 +115,7 @@ public class UsuarioController {
 	public ResponseEntity<VentaDto> generarVentas(HttpServletRequest request) {
 		HttpSession miSession = request.getSession();
 		Integer idUsuario = (Integer) miSession.getAttribute("idUsuario");
+		@SuppressWarnings("unchecked")
 		Map<String, Integer> productoCantidad = (Map<String, Integer>) miSession.getAttribute("productos");
 		ProductosCantidadDto productos = new ProductosCantidadDto();
 		for (Map.Entry<String, Integer> e : productoCantidad.entrySet()) {

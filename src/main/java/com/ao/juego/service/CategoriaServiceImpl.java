@@ -2,19 +2,26 @@ package com.ao.juego.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.ao.juego.controller.dto.CategoriaReporteDetailDto;
 import com.ao.juego.exceptions.CategoriaException;
 import com.ao.juego.model.Categoria;
+import com.ao.juego.model.custom.CategoriaCantidad;
 import com.ao.juego.repository.CategoriaRepo;
+import com.ao.juego.repository.ProductoRepo;
 
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
 
 	private final CategoriaRepo categoriaRepo;
+	private final ProductoRepo productoRepo;
 
-	public CategoriaServiceImpl(CategoriaRepo categoriaRepo) {
+	public CategoriaServiceImpl(CategoriaRepo categoriaRepo, ProductoRepo productoRepo) {
 		this.categoriaRepo = categoriaRepo;
+		this.productoRepo = productoRepo;
 	}
 
 	@Override
@@ -29,6 +36,18 @@ public class CategoriaServiceImpl implements CategoriaService {
 	@Override
 	public List<Categoria> listarCategorias() {
 		return categoriaRepo.findAll();
+	}
+
+	@Override
+	public List<CategoriaCantidad> mostrarCategoriasDemandadas(int tamanoPagina, int numeroPagina) {
+		Pageable pag = PageRequest.of(numeroPagina,tamanoPagina);
+		return productoRepo.testeo(pag);
+	}
+
+	@Override
+	public String obtenerNombreCategoriaPorId(Integer idCategoria) {
+		Categoria categoria =  categoriaRepo.findCategoriaById(idCategoria);
+		return categoria.getNombre();
 	}
 
 }

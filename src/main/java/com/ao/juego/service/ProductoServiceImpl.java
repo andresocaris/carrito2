@@ -104,13 +104,10 @@ public class ProductoServiceImpl implements ProductoService {
 		return productoRepo.findProductoById(idProducto).getNombre();
 	}
 
-
-
-//	@Override
-//	public Page<ReporteProducto> listarPaginado(int size, int numeroPagina) {
-//		Pageable pageableRequest = new PageRequest(numeroPagina, size, Sort.Direction.DESC, id);
-//
-//		return productoRepo.buscarPorPagina( pageableRequest);
-//	}
-
+	@Override
+	public List<ReporteProducto> listarPaginado(int cantidadPagina, int numeroPagina) {
+		// TODO Auto-generated method stub
+		Pageable pag= PageRequest.of(numeroPagina-1,cantidadPagina);
+		return productoRepo.buscarPorPagina(pag);
+	}
 }

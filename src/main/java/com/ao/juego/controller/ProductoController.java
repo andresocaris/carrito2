@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.ao.juego.controller.dto.ProductoCantidadDto;
 import com.ao.juego.controller.dto.ProductoDetailDto;
 import com.ao.juego.controller.dto.ProductoDto;
@@ -30,6 +31,7 @@ import com.ao.juego.service.ProductoService;
 public class ProductoController {
 	@Autowired
 	ProductoService productoService;
+		
 	
 	@PostMapping("/add")
 	public ResponseEntity<Object> addProducto(@RequestBody ProductoDto productoDto) {
@@ -61,6 +63,13 @@ public class ProductoController {
 	@GetMapping("/reporte")
 	public ResponseEntity<List<ReporteProducto>> reporteProductos() {
 		List<ReporteProducto> productos = productoService.reporteProductos();
+		return new ResponseEntity<>(productos, HttpStatus.OK);
+	}
+	
+	@GetMapping("/listar-productos-paginado/{tamanoPagina}/{numeroPagina}")
+	public ResponseEntity<List<ReporteProducto>> listarProductosPaginado(@PathVariable("tamanoPagina") int tamanoPagina
+			,@PathVariable("numeroPagina") int numeroPagina) {
+		List<ReporteProducto> productos = productoService.listarPaginado(tamanoPagina, numeroPagina);
 		return new ResponseEntity<>(productos, HttpStatus.OK);
 	}
 	
@@ -104,5 +113,5 @@ public class ProductoController {
 		
 		return new ResponseEntity<>(productosDto, HttpStatus.OK);
 	}
-	
+
 }

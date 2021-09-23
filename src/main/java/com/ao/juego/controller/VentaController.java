@@ -1,7 +1,5 @@
 package com.ao.juego.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +22,6 @@ public class VentaController {
 	
 	@GetMapping("/buscar-por-fecha")
 	public ResponseEntity<List<Venta>> crearUsuario(@RequestBody VentaBusquedaDetail ventaBusquedaDetail) {
-	
-	
 		List<Venta> ventas = ventaService.buscarEntreFechas(ventaBusquedaDetail);
 		return new ResponseEntity<>(ventas,HttpStatus.OK);
 	}

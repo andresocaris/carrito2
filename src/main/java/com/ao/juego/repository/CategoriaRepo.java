@@ -7,5 +7,7 @@ import com.ao.juego.model.Categoria;
 public interface CategoriaRepo extends JpaRepository<Categoria,Integer>{
 
 	Categoria findByNombre(String nombre);
+
+	Categoria findCategoriaById(Integer idCategoria);
 	
 }
