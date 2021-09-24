@@ -1,6 +1,5 @@
 package com.ao.juego.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.ao.juego.controller.dto.ProductoCantidadDto;
 import com.ao.juego.controller.dto.ProductoDetailDto;
 import com.ao.juego.controller.dto.ProductoDto;
 import com.ao.juego.controller.dto.ProductoReportDto;
 import com.ao.juego.model.Producto;
-import com.ao.juego.model.custom.ProductoCantidad;
-import com.ao.juego.model.custom.ReporteProduct;
 import com.ao.juego.model.custom.ReporteProducto;
 import com.ao.juego.service.ProductoService;
 
@@ -32,7 +28,6 @@ public class ProductoController {
 	@Autowired
 	ProductoService productoService;
 		
-	
 	@PostMapping("/add")
 	public ResponseEntity<Object> addProducto(@RequestBody ProductoDto productoDto) {
 		Producto producto = productoService.addProducto(productoDto);
@@ -48,15 +43,16 @@ public class ProductoController {
 	@GetMapping("/listar")
 	public ResponseEntity<ProductoReportDto> listarProductos() {
 		ProductoReportDto productoReportDto = new ProductoReportDto();
-		List<ReporteProduct> resultadoReporte = productoService.obtenerProductosPorCampos();
-
-		for (ReporteProduct reporteProduct : resultadoReporte) {
-			ProductoDetailDto productoDetailDto = new ProductoDetailDto();
-			productoDetailDto.setCosto(reporteProduct.getCosto());
-			productoDetailDto.setNombre(reporteProduct.getNombre());
-			productoDetailDto.setCategoria(reporteProduct.getNombreCategoria());
-			productoReportDto.add(productoDetailDto);
-		}
+		productoReportDto.add( productoService.obtenerProductosPorCampos()
+				.stream()
+				.map(reporteProduct->{
+					ProductoDetailDto productoDetailDto = new ProductoDetailDto();
+					productoDetailDto.setCosto(reporteProduct.getCosto());
+					productoDetailDto.setNombre(reporteProduct.getNombre());
+					productoDetailDto.setCategoria(reporteProduct.getNombreCategoria());
+					return productoDetailDto;
+				}).toList()
+				);
 		return new ResponseEntity<>(productoReportDto, HttpStatus.OK);
 	}
 	
@@ -97,19 +93,18 @@ public class ProductoController {
 	@GetMapping("/obtener-productos-mas-vendidos/{tamanoPagina}/{numeroPagina}")
 	public ResponseEntity<List<ProductoCantidadDto>> obtenerProductosMasVendidos(@PathVariable("tamanoPagina") int tamanoPagina 
 			, @PathVariable("numeroPagina") int numeroPagina ) {
-		List<ProductoCantidad> productos = productoService.obtenerProductosMasVendidos(numeroPagina,tamanoPagina);
-		
-		List<ProductoCantidadDto> productosDto = new ArrayList<>();
-		for ( ProductoCantidad productoCantidad : productos) {
-			int idProducto = productoCantidad.getIdProducto();
-			long cantidad = productoCantidad.getCantidad();
-			String nombre = productoService.obtenerNombreProductoPorId(idProducto);
-			
-			ProductoCantidadDto producto = new ProductoCantidadDto();
-			producto.setNombre(nombre);
-			producto.setCantidad((int) cantidad);
-			productosDto.add(producto);
-		}
+		List<ProductoCantidadDto> productosDto =productoService.obtenerProductosMasVendidos(numeroPagina,tamanoPagina)
+				.stream()
+				.map(productoCantidad->{
+					int idProducto = productoCantidad.getIdProducto();
+					long cantidad = productoCantidad.getCantidad();
+					String nombre = productoService.obtenerNombreProductoPorId(idProducto);
+					ProductoCantidadDto producto = new ProductoCantidadDto();
+					producto.setNombre(nombre);
+					producto.setCantidad((int) cantidad);					
+					return producto;
+				})
+				.toList();
 		
 		return new ResponseEntity<>(productosDto, HttpStatus.OK);
 	}

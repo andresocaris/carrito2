@@ -1,6 +1,5 @@
 package com.ao.juego.controller.dto;
 
-
 public class VentaDto {
 	private ProductosCantidadDto productosCantidadDto;
 	private VentaDetail ventaDetail;

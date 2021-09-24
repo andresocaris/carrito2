@@ -1,5 +1,6 @@
 package com.ao.juego.controller.dto;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,7 +14,10 @@ public class ProductoReportDto {
 	public List<ProductoDetailDto> getProducts() {
 		return productos;
 	}
-
+	public void add(Collection<ProductoDetailDto> collection) {
+		productos.addAll(collection);
+	}
+	
 	public void add(ProductoDetailDto productoDetailDto) {
 		productos.add(productoDetailDto);
 	}

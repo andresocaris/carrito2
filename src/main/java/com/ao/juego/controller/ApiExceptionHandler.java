@@ -5,15 +5,15 @@ import java.time.ZonedDateTime;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.ao.juego.exceptions.CategoriaException;
 import com.ao.juego.exceptions.ErrorMessage;
 import com.ao.juego.exceptions.ProductoException;
 import com.ao.juego.exceptions.UsuarioException;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class ApiExceptionHandler {
 	@ExceptionHandler(value= {CategoriaException.class})
 	public ResponseEntity<Object> handleException( CategoriaException categoriaException ){
