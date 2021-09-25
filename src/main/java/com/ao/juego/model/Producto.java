@@ -1,5 +1,7 @@
 package com.ao.juego.model;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,6 +40,26 @@ public class Producto {
 	}
 	public void setIdCategoria(Integer idCategoria) {
 		this.idCategoria = idCategoria;
+	}
+	@Override
+	public String toString() {
+		return "Producto [id=" + id + ", nombre=" + nombre + ", costo=" + costo + ", idCategoria=" + idCategoria + "]";
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(costo, id, idCategoria, nombre);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Producto other = (Producto) obj;
+		return Objects.equals(costo, other.costo) && Objects.equals(id, other.id)
+				&& Objects.equals(idCategoria, other.idCategoria) && Objects.equals(nombre, other.nombre);
 	}
 	
 }
