@@ -12,21 +12,21 @@ import com.ao.juego.util.Tiempo;
 @Service
 public class VentaServiceImpl implements VentaService {
 	private final VentaRepo ventaRepo;
-	
+
 	public VentaServiceImpl(VentaRepo ventaRepo) {
 		this.ventaRepo = ventaRepo;
 	}
+
 	@Override
 	public Venta crearVenta(Venta venta) {
 		return ventaRepo.save(venta);
 	}
+
 	@Override
-	public List<Venta> buscarEntreFechas(VentaBusquedaDetail ventaBusquedaDetail) {
+	public List<Venta> buscarVentasPorVentaBusquedaDetail(VentaBusquedaDetail ventaBusquedaDetail) {
 		String inicio = ventaBusquedaDetail.getFechaInicio();
 		String fin = ventaBusquedaDetail.getFechaFin();
 		Tiempo tiempo = new Tiempo();
-		return ventaRepo.findByFechaBetween(tiempo.convertStrinToDate(inicio),
-				tiempo.convertStrinToDate(fin));
+		return ventaRepo.findByFechaBetween(tiempo.convertStrinToDate(inicio), tiempo.convertStrinToDate(fin));
 	}
-
 }

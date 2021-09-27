@@ -6,11 +6,11 @@ import com.ao.juego.model.Categoria;
 import com.ao.juego.model.custom.CategoriaCantidad;
 
 public interface CategoriaService {
-	public Categoria crearCategoria(String nombre);
+	public Categoria crearCategoriaPorNombre(String nombre);
 
-	public List<Categoria> listarCategorias();
+	public List<Categoria> obtenerCategorias();
 
-	public List<CategoriaCantidad> mostrarCategoriasDemandadas(int tamanoPagina, int numeroPagina);
+	public List<CategoriaCantidad> obtenerCategoriasMasDemandadasConPaginacion(int tamanoPagina, int numeroPagina);
 
 	public String obtenerNombreCategoriaPorId(Integer idCategoria);
 }

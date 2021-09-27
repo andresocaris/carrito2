@@ -19,10 +19,10 @@ import com.ao.juego.service.VentaService;
 public class VentaController {
 	@Autowired
 	VentaService ventaService;
-	
+
 	@GetMapping("/buscar-por-fecha")
 	public ResponseEntity<List<Venta>> crearUsuario(@RequestBody VentaBusquedaDetail ventaBusquedaDetail) {
-		List<Venta> ventas = ventaService.buscarEntreFechas(ventaBusquedaDetail);
-		return new ResponseEntity<>(ventas,HttpStatus.OK);
+		List<Venta> ventas = ventaService.buscarVentasPorVentaBusquedaDetail(ventaBusquedaDetail);
+		return new ResponseEntity<>(ventas, HttpStatus.OK);
 	}
 }

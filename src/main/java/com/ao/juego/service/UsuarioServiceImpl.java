@@ -15,13 +15,13 @@ import com.ao.juego.repository.UsuarioRepo;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
-
 	private final UsuarioRepo usuarioRepo;
 	private final ProductoService productoService;
 	private final VentaService ventaService;
 	private final ProductoVentaService productoVentaService;
 
-	public UsuarioServiceImpl(UsuarioRepo usuarioRepo, ProductoService productoService, VentaService ventaService, ProductoVentaService productoVentaService) {
+	public UsuarioServiceImpl(UsuarioRepo usuarioRepo, ProductoService productoService, VentaService ventaService,
+			ProductoVentaService productoVentaService) {
 		this.usuarioRepo = usuarioRepo;
 		this.productoService = productoService;
 		this.ventaService = ventaService;
@@ -41,19 +41,20 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public Usuario agregarUsuario(Usuario usuario) {
 		Usuario usuarioBuscado = usuarioRepo.getByNombre(usuario.getNombre());
-		if ( usuarioBuscado != null ) {
+		if (usuarioBuscado != null) {
 			throw new UsuarioException("ya existe el usuario con el nombre");
-		}else return usuarioRepo.save(usuario);
+		} else
+			return usuarioRepo.save(usuario);
 	}
 
 	@Override
 	public Venta generarVenta(ProductosCantidadDto productos, Integer idUsuario) {
 		Integer montoVenta = 0;
-		for (ProductoCantidadDetailDto productoCantidad: productos.getProductos()) {
+		for (ProductoCantidadDetailDto productoCantidad : productos.getProductos()) {
 			String nombre = productoCantidad.getNombre();
 			Integer cantidad = productoCantidad.getCantidad();
-			Producto producto = productoService.obtenerProductoPorName(nombre);
-			montoVenta += producto.getCosto()*cantidad;			
+			Producto producto = productoService.obtenerProductoPorNombre(nombre);
+			montoVenta += producto.getCosto() * cantidad;
 		}
 		Date date = new Date();
 		Venta venta = new Venta();
@@ -62,11 +63,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 		venta.setFecha(date);
 		Venta ventaCreada = ventaService.crearVenta(venta);
 		Integer idVenta = ventaCreada.getId();
-		
-		for (ProductoCantidadDetailDto productoCantidad: productos.getProductos()) {
+
+		for (ProductoCantidadDetailDto productoCantidad : productos.getProductos()) {
 			String nombre = productoCantidad.getNombre();
 			Integer cantidad = productoCantidad.getCantidad();
-			Integer idProducto = productoService.obtenerProductoPorName(nombre).getId();
+			Integer idProducto = productoService.obtenerProductoPorNombre(nombre).getId();
 			ProductoVenta productoVenta = new ProductoVenta();
 			productoVenta.setCantidad(cantidad);
 			productoVenta.setIdProducto(idProducto);
@@ -74,8 +75,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 			@SuppressWarnings("unused")
 			ProductoVenta productoVentaCreado = productoVentaService.crearProductoVenta(productoVenta);
 		}
-		
-		return ventaCreada;		
-	}
 
+		return ventaCreada;
+	}
 }

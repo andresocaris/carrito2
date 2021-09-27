@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ao.juego.model.Venta;
 
-public interface VentaRepo  extends JpaRepository<Venta,Integer>{
-
+public interface VentaRepo extends JpaRepository<Venta, Integer> {
 	List<Venta> findByFechaBetween(Date inicio, Date fin);
-
 }

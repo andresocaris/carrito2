@@ -14,7 +14,7 @@ import com.ao.juego.repository.ProductoRepo;
 
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
-
+	
 	private final CategoriaRepo categoriaRepo;
 	private final ProductoRepo productoRepo;
 
@@ -24,7 +24,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 	}
 
 	@Override
-	public Categoria crearCategoria(String nombre) {
+	public Categoria crearCategoriaPorNombre(String nombre) {
 		Categoria categoria = categoriaRepo.findByNombre(nombre);
 		if ( categoria != null ) throw new CategoriaException("ya existe la categoria con ese nombre");
 		Categoria categoriaNuevo = new Categoria();
@@ -33,14 +33,14 @@ public class CategoriaServiceImpl implements CategoriaService {
 	}
 
 	@Override
-	public List<Categoria> listarCategorias() {
+	public List<Categoria> obtenerCategorias() {
 		return categoriaRepo.findAll();
 	}
 
 	@Override
-	public List<CategoriaCantidad> mostrarCategoriasDemandadas(int tamanoPagina, int numeroPagina) {
+	public List<CategoriaCantidad> obtenerCategoriasMasDemandadasConPaginacion(int tamanoPagina, int numeroPagina) {
 		Pageable pag = PageRequest.of(numeroPagina,tamanoPagina);
-		return productoRepo.testeo(pag);
+		return productoRepo.obtenerCategoriasCantidadConPaginacion(pag);
 	}
 
 	@Override
@@ -48,5 +48,4 @@ public class CategoriaServiceImpl implements CategoriaService {
 		Categoria categoria =  categoriaRepo.findCategoriaById(idCategoria);
 		return categoria.getNombre();
 	}
-
 }

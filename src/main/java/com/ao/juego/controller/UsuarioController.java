@@ -98,7 +98,7 @@ public class UsuarioController {
 		for (Map.Entry<String, Integer> elemento : productoCantidad.entrySet()) {
 			String nombre = elemento.getKey();
 			Integer cantidad = elemento.getValue();
-			Integer costo= productoService.obtenerProductoPorName(nombre).getCosto();
+			Integer costo = productoService.obtenerProductoPorNombre(nombre).getCosto();
 			ProductoCantidadDetailDto productoCantidadDetailDto = new ProductoCantidadDetailDto();
 			productoCantidadDetailDto.setNombre(nombre);
 			productoCantidadDetailDto.setCantidad(cantidad);
@@ -122,14 +122,14 @@ public class UsuarioController {
 			ProductoCantidadDetailDto productoCantidadDetailDto = new ProductoCantidadDetailDto();
 			String nombre = e.getKey();
 			Integer cantidad = e.getValue();
-			Integer costo = productoService.obtenerProductoPorName(nombre).getCosto();
+			Integer costo = productoService.obtenerProductoPorNombre(nombre).getCosto();
 			productoCantidadDetailDto.setNombre(nombre);
 			productoCantidadDetailDto.setCantidad(cantidad);
 			productoCantidadDetailDto.setCosto(costo);
-			productos.add(productoCantidadDetailDto);		
+			productos.add(productoCantidadDetailDto);
 		}
 		String nombreUsuario = (String) miSession.getAttribute("usuario");
-		Venta venta = usuarioService.generarVenta(productos,idUsuario);
+		Venta venta = usuarioService.generarVenta(productos, idUsuario);
 		VentaDetail ventaDetail = new VentaDetail();
 		ventaDetail.setDate(venta.getFecha());
 		ventaDetail.setMontoVenta(venta.getMonto());
@@ -137,7 +137,7 @@ public class UsuarioController {
 		VentaDto ventaDto = new VentaDto();
 		ventaDto.setVentaDetail(ventaDetail);
 		ventaDto.setProductosCantidadDto(productos);
-		return new ResponseEntity<>(ventaDto,HttpStatus.OK);
+		return new ResponseEntity<>(ventaDto, HttpStatus.OK);
 	}
 
 	private String getJWTToken(String username) {

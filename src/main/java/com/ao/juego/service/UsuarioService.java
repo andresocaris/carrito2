@@ -5,7 +5,7 @@ import com.ao.juego.model.Usuario;
 import com.ao.juego.model.Venta;
 
 public interface UsuarioService {
-	Usuario obtenerUsuarioPorNombreContrasena(String nombre,String pwd);
+	Usuario obtenerUsuarioPorNombreContrasena(String nombre, String pwd);
 
 	Usuario busquedaPorNombreContrasena(String username, String pwd);
 

@@ -6,10 +6,9 @@ import com.ao.juego.model.ProductoVenta;
 import com.ao.juego.repository.ProductoVentaRepo;
 
 @Service
-public class ProductoVentaServiceImpl implements ProductoVentaService{
-
+public class ProductoVentaServiceImpl implements ProductoVentaService {
 	private final ProductoVentaRepo productoVentaRepo;
-	
+
 	public ProductoVentaServiceImpl(ProductoVentaRepo productoVentaRepo) {
 		this.productoVentaRepo = productoVentaRepo;
 	}
@@ -18,5 +17,4 @@ public class ProductoVentaServiceImpl implements ProductoVentaService{
 	public ProductoVenta crearProductoVenta(ProductoVenta productoVenta) {
 		return productoVentaRepo.save(productoVenta);
 	}
-
 }

@@ -6,9 +6,7 @@ import com.ao.juego.controller.dto.VentaBusquedaDetail;
 import com.ao.juego.model.Venta;
 
 public interface VentaService {
-
 	Venta crearVenta(Venta venta);
 
-	List<Venta> buscarEntreFechas(VentaBusquedaDetail ventaBusquedaDetail);
-
+	List<Venta> buscarVentasPorVentaBusquedaDetail(VentaBusquedaDetail ventaBusquedaDetail);
 }

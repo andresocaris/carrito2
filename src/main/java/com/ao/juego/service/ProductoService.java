@@ -11,20 +11,25 @@ import com.ao.juego.model.custom.ReporteProduct;
 import com.ao.juego.model.custom.ReporteProducto;
 
 public interface ProductoService {
-	
-	Page<Producto> obtenerProductosPaginas(int size,int pagina);
-	List<Producto> obtenerProductos();
-	Producto addProducto(ProductoDto productoDto);
-	List<ReporteProducto> reporteProductos();
-	List<ReporteProduct> obtenerProductosPorCampos();
-	Producto editarProducto(Producto producto);
-	Producto obtenerProductoPorName(String nombre);
-//	List<ReporteProducto> listarPaginado(Integer cantidadPagina, Integer numeroPagina);
-	
-	List<ReporteProducto> listarPaginado(int cantidadPagina, int numeroPagina);
-	
-	Page<Producto> obtenerProductosPorCosto(Integer costo);
-	List<ProductoCantidad> obtenerProductosMasVendidos(int numeroPagina ,int tamanoPagina);
-	String obtenerNombreProductoPorId(int idProducto);
+	Page<Producto> obtenerProductosPaginas(int size, int pagina);
 
+	Page<Producto> obtenerProductosPorCosto(Integer costo);
+
+	List<Producto> obtenerProductos();
+
+	List<ReporteProducto> reporteProductos();
+
+	List<ProductoCantidad> obtenerProductosMasVendidosConPaginacion(int numeroPagina, int tamanoPagina);
+
+	List<ReporteProducto> reporteProductosConPaginacion(int cantidadPagina, int numeroPagina);
+
+	List<ReporteProduct> obtenerProductosPorCampos();
+
+	Producto addProductoDto(ProductoDto productoDto);
+
+	Producto editarProducto(Producto producto);
+
+	Producto obtenerProductoPorNombre(String nombre);
+
+	String obtenerNombreDelProductoPorId(int idProducto);
 }

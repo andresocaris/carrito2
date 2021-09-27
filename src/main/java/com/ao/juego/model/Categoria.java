@@ -9,8 +9,8 @@ import javax.persistence.Id;
 @Entity
 public class Categoria {
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(nullable = false, updatable = false)
 	private Integer id;
 	private String nombre;
 

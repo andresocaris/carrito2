@@ -29,12 +29,12 @@ public class CategoriaController {
 	}
 	@PostMapping("/crear")
 	public ResponseEntity<Object> crearCategoria(@RequestBody CategoriaDto categoriaDto){
-		Categoria categoriaNuevo = categoriaService.crearCategoria(categoriaDto.getNombre());
+		Categoria categoriaNuevo = categoriaService.crearCategoriaPorNombre(categoriaDto.getNombre());
 		return new ResponseEntity<>(categoriaNuevo,HttpStatus.OK);
 	}
 	@GetMapping("/listar")
 	public ResponseEntity<Object> listarCategoria(){
-		List<Categoria> categorias = categoriaService.listarCategorias();
+		List<Categoria> categorias = categoriaService.obtenerCategorias();
 		return new ResponseEntity<>(categorias,HttpStatus.OK);
 	}
 	
@@ -42,7 +42,7 @@ public class CategoriaController {
 	public ResponseEntity<Object> testeo2(@PathVariable("tamanoPagina") int tamanoPagina 
 			, @PathVariable("numeroPagina") int numeroPagina){
 		
-		List<CategoriaCantidad> categorias = categoriaService.mostrarCategoriasDemandadas(tamanoPagina,numeroPagina-1);
+		List<CategoriaCantidad> categorias = categoriaService.obtenerCategoriasMasDemandadasConPaginacion(tamanoPagina,numeroPagina-1);
 		
 		CategoriaReporteDto categoriasDto = new CategoriaReporteDto();
 		
