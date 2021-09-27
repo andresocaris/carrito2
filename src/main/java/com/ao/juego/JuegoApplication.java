@@ -1,5 +1,6 @@
 package com.ao.juego;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import com.ao.juego.security.JWTAuthorizationFilter;
 public class JuegoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(JuegoApplication.class, args);
+		ModelMapper modelMapper = new ModelMapper();
 	}
 
 	@EnableWebSecurity
@@ -30,3 +32,4 @@ public class JuegoApplication {
 		}
 	}
 }
+

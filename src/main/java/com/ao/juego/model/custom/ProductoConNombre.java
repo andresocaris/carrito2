@@ -1,11 +1,11 @@
 package com.ao.juego.model.custom;
 
-public class ReporteProduct {
+public class ProductoConNombre {
 	private String nombre;
 	private Integer costo;
 	private String nombreCategoria;
 
-	public ReporteProduct(String nombre, Integer costo, String nombreCategoria) {
+	public ProductoConNombre(String nombre, Integer costo, String nombreCategoria) {
 		this.nombre = nombre;
 		this.costo = costo;
 		this.nombreCategoria = nombreCategoria;

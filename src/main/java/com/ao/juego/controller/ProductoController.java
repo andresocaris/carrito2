@@ -2,6 +2,7 @@ package com.ao.juego.controller;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ import com.ao.juego.controller.dto.ProductoDetailDto;
 import com.ao.juego.controller.dto.ProductoDto;
 import com.ao.juego.controller.dto.ProductoReportDto;
 import com.ao.juego.model.Producto;
-import com.ao.juego.model.custom.ReporteProducto;
+import com.ao.juego.model.custom.ProductoPorIdYNombre;
 import com.ao.juego.service.ProductoService;
 
 @RestController
@@ -30,7 +31,7 @@ public class ProductoController {
 
 	@PostMapping("/add")
 	public ResponseEntity<Producto> addProducto(@RequestBody ProductoDto productoDto) {
-		Producto producto = productoService.addProductoDto(productoDto);
+		Producto producto = productoService.addProductoPorDto(productoDto);
 		return new ResponseEntity<>(producto, HttpStatus.OK);
 	}
 
@@ -43,33 +44,31 @@ public class ProductoController {
 	@GetMapping("/listar")
 	public ResponseEntity<ProductoReportDto> listarProductos() {
 		ProductoReportDto productoReportDto = new ProductoReportDto();
-		productoReportDto.add(productoService.obtenerProductosPorCampos().stream().map(reporteProduct -> {
-			ProductoDetailDto productoDetailDto = new ProductoDetailDto();
-			productoDetailDto.setCosto(reporteProduct.getCosto());
-			productoDetailDto.setNombre(reporteProduct.getNombre());
-			productoDetailDto.setCategoria(reporteProduct.getNombreCategoria());
+		productoReportDto.add(productoService.obtenerProductosPorCampos().stream().map(productoConNombre -> {
+			ModelMapper modelMapper=new ModelMapper();
+			ProductoDetailDto productoDetailDto=modelMapper.map(productoConNombre, ProductoDetailDto.class);
 			return productoDetailDto;
 		}).toList());
 		return new ResponseEntity<>(productoReportDto, HttpStatus.OK);
 	}
 
 	@GetMapping("/reporte")
-	public ResponseEntity<List<ReporteProducto>> reporteProductos() {
-		List<ReporteProducto> productos = productoService.reporteProductos();
+	public ResponseEntity<List<ProductoPorIdYNombre>> reporteProductos() {
+		List<ProductoPorIdYNombre> productos = productoService.obtenerReporteProductos();
 		return new ResponseEntity<>(productos, HttpStatus.OK);
 	}
 
 	@GetMapping("/listar-productos-paginado/{tamanoPagina}/{numeroPagina}")
-	public ResponseEntity<List<ReporteProducto>> listarProductosPaginado(@PathVariable("tamanoPagina") int tamanoPagina,
+	public ResponseEntity<List<ProductoPorIdYNombre>> listarProductosPaginado(@PathVariable("tamanoPagina") int tamanoPagina,
 			@PathVariable("numeroPagina") int numeroPagina) {
-		List<ReporteProducto> productos = productoService.reporteProductosConPaginacion(tamanoPagina, numeroPagina);
+		List<ProductoPorIdYNombre> productos = productoService.reporteProductosConPaginacion(tamanoPagina, numeroPagina);
 		return new ResponseEntity<>(productos, HttpStatus.OK);
 	}
 
 	@GetMapping("/listado-paginacion/{tamanoPagina}/{pagina}")
 	public ResponseEntity<List<Producto>> obtenerProductos(@PathVariable("tamanoPagina") int tamanoPagina,
 			@PathVariable("pagina") int pagina) {
-		Page<Producto> productosPage = productoService.obtenerProductosPaginas(tamanoPagina, pagina - 1);
+		Page<Producto> productosPage = productoService.obtenerPageProductosConPaginacion(tamanoPagina, pagina - 1);
 		List<Producto> productosList = productosPage.getContent();
 		return new ResponseEntity<>(productosList, HttpStatus.OK);
 	}
@@ -82,7 +81,7 @@ public class ProductoController {
 
 	@GetMapping("/test")
 	public ResponseEntity<List<Producto>> testProductos() {
-		List<Producto> productos = productoService.obtenerProductosPorCosto(5301).getContent();
+		List<Producto> productos = productoService.obtenerPageProductosPorCostoConPaginacion(5301,2,3).getContent();
 		return new ResponseEntity<>(productos, HttpStatus.OK);
 	}
 

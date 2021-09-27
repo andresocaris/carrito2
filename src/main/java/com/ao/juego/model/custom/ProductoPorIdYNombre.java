@@ -1,10 +1,10 @@
 package com.ao.juego.model.custom;
 
-public class ReporteProducto {
+public class ProductoPorIdYNombre {
 	private int id;
 	private String nombre;
 
-	public ReporteProducto(int id, String nombre) {
+	public ProductoPorIdYNombre(int id, String nombre) {
 		this.id = id;
 		this.nombre = nombre;
 	}

@@ -7,25 +7,25 @@ import org.springframework.data.domain.Page;
 import com.ao.juego.controller.dto.ProductoDto;
 import com.ao.juego.model.Producto;
 import com.ao.juego.model.custom.ProductoCantidad;
-import com.ao.juego.model.custom.ReporteProduct;
-import com.ao.juego.model.custom.ReporteProducto;
+import com.ao.juego.model.custom.ProductoConNombre;
+import com.ao.juego.model.custom.ProductoPorIdYNombre;
 
 public interface ProductoService {
-	Page<Producto> obtenerProductosPaginas(int size, int pagina);
+	Page<Producto> obtenerPageProductosConPaginacion(int size, int pagina);
 
-	Page<Producto> obtenerProductosPorCosto(Integer costo);
-
-	List<Producto> obtenerProductos();
-
-	List<ReporteProducto> reporteProductos();
+	Page<Producto> obtenerPageProductosPorCostoConPaginacion(Integer costo, int numeroPagina, int tamanoPagina);
 
 	List<ProductoCantidad> obtenerProductosMasVendidosConPaginacion(int numeroPagina, int tamanoPagina);
 
-	List<ReporteProducto> reporteProductosConPaginacion(int cantidadPagina, int numeroPagina);
+	List<ProductoPorIdYNombre> reporteProductosConPaginacion(int cantidadPagina, int numeroPagina);
 
-	List<ReporteProduct> obtenerProductosPorCampos();
+	List<Producto> obtenerProductos();
 
-	Producto addProductoDto(ProductoDto productoDto);
+	List<ProductoPorIdYNombre> obtenerReporteProductos();
+
+	List<ProductoConNombre> obtenerProductosPorCampos();
+
+	Producto addProductoPorDto(ProductoDto productoDto);
 
 	Producto editarProducto(Producto producto);
 

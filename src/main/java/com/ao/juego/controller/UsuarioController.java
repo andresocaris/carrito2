@@ -49,7 +49,7 @@ public class UsuarioController {
 	@PostMapping("/obtener-usuario")
 	public ResponseEntity<UsuarioDto> obtenerUsuario(HttpServletRequest request, @RequestParam("user") String username,
 			@RequestParam("password") String pwd) {
-		Usuario usuario = usuarioService.busquedaPorNombreContrasena(username, pwd);
+		Usuario usuario = usuarioService.obtenerUsuarioPorNombreYContrasena(username, pwd);
 		String token = getJWTToken(username);
 		UsuarioDto usuarioDto = new UsuarioDto();
 		usuarioDto.setNombre(username);

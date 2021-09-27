@@ -14,8 +14,8 @@ import com.ao.juego.exceptions.ProductoException;
 import com.ao.juego.model.Categoria;
 import com.ao.juego.model.Producto;
 import com.ao.juego.model.custom.ProductoCantidad;
-import com.ao.juego.model.custom.ReporteProduct;
-import com.ao.juego.model.custom.ReporteProducto;
+import com.ao.juego.model.custom.ProductoConNombre;
+import com.ao.juego.model.custom.ProductoPorIdYNombre;
 import com.ao.juego.repository.CategoriaRepo;
 import com.ao.juego.repository.ProductoRepo;
 import com.ao.juego.repository.ProductoVentaRepo;
@@ -36,7 +36,7 @@ public class ProductoServiceImpl implements ProductoService {
 	}
 
 	@Override
-	public Page<Producto> obtenerProductosPaginas(int size, int pagina) {
+	public Page<Producto> obtenerPageProductosConPaginacion(int size, int pagina) {
 		Pageable pag = PageRequest.of(pagina, size);
 		return productoRepo.findAll(pag);
 	}
@@ -47,12 +47,12 @@ public class ProductoServiceImpl implements ProductoService {
 	}
 
 	@Override
-	public List<ReporteProducto> reporteProductos() {
+	public List<ProductoPorIdYNombre> obtenerReporteProductos() {
 		return productoRepo.obtenerReporteProductos();
 	}
 
 	@Override
-	public Producto addProductoDto(ProductoDto productoDto) {
+	public Producto addProductoPorDto(ProductoDto productoDto) {
 		Producto producto = new Producto();
 		Categoria categoria = categoriaRepo.findByNombre(productoDto.getCategoria());
 		if (categoria == null)
@@ -66,7 +66,7 @@ public class ProductoServiceImpl implements ProductoService {
 	}
 
 	@Override
-	public List<ReporteProduct> obtenerProductosPorCampos() {
+	public List<ProductoConNombre> obtenerProductosPorCampos() {
 		return productoRepo.obtenerReporteProduct();
 
 	}
@@ -88,8 +88,8 @@ public class ProductoServiceImpl implements ProductoService {
 	}
 
 	@Override
-	public Page<Producto> obtenerProductosPorCosto(Integer costo) {
-		Pageable pag = PageRequest.of(1, 1);
+	public Page<Producto> obtenerPageProductosPorCostoConPaginacion(Integer costo,int numeroPagina, int tamanoPagina) {
+		Pageable pag = PageRequest.of(numeroPagina - 1, tamanoPagina);
 		return productoRepo.findProductoByCosto(costo, pag);
 	}
 
@@ -105,7 +105,7 @@ public class ProductoServiceImpl implements ProductoService {
 	}
 
 	@Override
-	public List<ReporteProducto> reporteProductosConPaginacion(int cantidadPagina, int numeroPagina) {
+	public List<ProductoPorIdYNombre> reporteProductosConPaginacion(int cantidadPagina, int numeroPagina) {
 		Pageable pag = PageRequest.of(numeroPagina - 1, cantidadPagina);
 		return productoRepo.obternerReporteProductoConPaginacion(pag);
 	}
