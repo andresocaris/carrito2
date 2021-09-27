@@ -21,7 +21,6 @@ import com.ao.juego.service.CategoriaService;
 @RestController
 @RequestMapping("/categoria")
 public class CategoriaController {
-	
 	private final CategoriaService categoriaService;
 	
 	public CategoriaController(CategoriaService categoriaService) {

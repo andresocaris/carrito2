@@ -29,13 +29,13 @@ public class ProductoController {
 	ProductoService productoService;
 
 	@PostMapping("/add")
-	public ResponseEntity<Object> addProducto(@RequestBody ProductoDto productoDto) {
+	public ResponseEntity<Producto> addProducto(@RequestBody ProductoDto productoDto) {
 		Producto producto = productoService.addProductoDto(productoDto);
 		return new ResponseEntity<>(producto, HttpStatus.OK);
 	}
 
 	@PutMapping("/editar")
-	public ResponseEntity<Object> editarProducto(@RequestBody Producto producto) {
+	public ResponseEntity<Producto> editarProducto(@RequestBody Producto producto) {
 		Producto productoEditado = productoService.editarProducto(producto);
 		return new ResponseEntity<>(productoEditado, HttpStatus.OK);
 	}

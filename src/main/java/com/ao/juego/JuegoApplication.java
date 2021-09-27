@@ -13,25 +13,20 @@ import com.ao.juego.security.JWTAuthorizationFilter;
 
 @SpringBootApplication
 public class JuegoApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(JuegoApplication.class, args);
 	}
-	
+
 	@EnableWebSecurity
 	@Configuration
-	@EnableGlobalMethodSecurity(prePostEnabled=true)
+	@EnableGlobalMethodSecurity(prePostEnabled = true)
 	class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http.csrf().disable()
-				.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-				.authorizeRequests()
-				.anyRequest().permitAll();
-//				.antMatchers(HttpMethod.POST, "/usuario/obtener-usuario").permitAll()
-//				.anyRequest().authenticated();
+					.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+					.authorizeRequests().anyRequest().permitAll();
 		}
 	}
-
 }
