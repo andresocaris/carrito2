@@ -19,7 +19,6 @@ import com.ao.juego.repository.CategoriaRepo;
 import com.ao.juego.repository.ProductoRepo;
 import com.ao.juego.repository.ProductoVentaRepo;
 
-//@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class ProductoServiceImplTest {
 
